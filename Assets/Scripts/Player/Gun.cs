@@ -23,8 +23,7 @@ public class Gun : MonoBehaviour
     public Camera cam;
     public Transform shootingPos;
     public RaycastHit raycastHit;
-    public LayerMask enemyLayer;
-    public LayerMask environmentLayer;
+    public LayerMask hittableLayers;
 
     private void OnEnable()
     {
@@ -43,7 +42,15 @@ public class Gun : MonoBehaviour
             }
             else
             {
-                //TODO: insert shoot mechanic
+                Vector3 rayOrigin = cam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
+
+                //raycasting to shoot
+                if (Physics.Raycast(rayOrigin, cam.transform.forward, out raycastHit, Mathf.Infinity, (int)hittableLayers))
+                {
+                    //TODO: insert shoot mechanic
+                    Debug.Log(raycastHit);
+                }
+
                 ammoLeft--;
                 canShoot = false;
                 StartCoroutine(ShootingCooldownCoroutine(timeBetweenShots));
