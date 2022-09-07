@@ -6,6 +6,7 @@ using UnityEngine.Rendering;
 
 public class Wallrun : MonoBehaviour
 {
+    public Vector3 wallRunRaycastOffset;
     public float wallMaxDistance = 1f;
     public float wallSpeedMultiplier = 8.5f;
     public float minimumHeight = 0.7f;
@@ -32,7 +33,7 @@ public class Wallrun : MonoBehaviour
     PlayerMovement movement;
     PlayerInput inputHandler;
 
-    Vector3[] directions;
+    public Vector3[] directions;
     RaycastHit[] hits;
     [SerializeField] LayerMask layerMask;
 
@@ -163,18 +164,18 @@ public class Wallrun : MonoBehaviour
         if(CanAttach())
         {
             hits = new RaycastHit[directions.Length];
-
             for (int i = 0; i < directions.Length; i++)
             {
                 Vector3 dir = transform.TransformDirection(directions[i]);
-                Physics.Raycast(transform.position, dir, out hits[i], wallMaxDistance, layerMask);
+                Physics.Raycast(transform.position + wallRunRaycastOffset, dir, out hits[i], wallMaxDistance, layerMask);
+                //DEBUG GIZMO RAY
                 if(hits[i].collider != null)
                 {
-                    Debug.DrawRay(transform.position, dir * hits[i].distance, Color.green);
+                    Debug.DrawRay(transform.position + wallRunRaycastOffset, dir * hits[i].distance, Color.green);
                 }
                 else
                 {
-                    Debug.DrawRay(transform.position, dir * wallMaxDistance, Color.red);
+                    Debug.DrawRay(transform.position + wallRunRaycastOffset, dir * wallMaxDistance, Color.red);
                 }
             }
             if(CanWallRun())
@@ -247,7 +248,7 @@ public class Wallrun : MonoBehaviour
 
         SetVolumeWeight(w);
     }
-
+    
     void SetVolumeWeight(float weight)
     {
         postProcessVolume.weight = weight;
