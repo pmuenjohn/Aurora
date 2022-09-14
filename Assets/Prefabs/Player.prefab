@@ -300,6 +300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c5174cef4fe8174693f8d54b34344a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wallRunRaycastOffset: {x: 0, y: 0, z: 0}
   wallMaxDistance: 1
   wallSpeedMultiplier: 8.5
   minimumHeight: 0.7
@@ -316,6 +317,7 @@ MonoBehaviour:
   boostTime: 0.75
   useSprint: 0
   postProcessVolume: {fileID: 103285386122700669}
+  directions: []
   layerMask:
     serializedVersion: 2
     m_Bits: 55
