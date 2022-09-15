@@ -48,11 +48,19 @@ public class Gun : MonoBehaviour
                 Vector3 rayOrigin = cam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
                 Vector3 hitPos;
 
-                //TODO: insert damaging if hit enemies
                 //raycasting to shoot
                 if (Physics.Raycast(rayOrigin, cam.transform.forward, out raycastHit, Mathf.Infinity, (int)hittableLayers))
                 {
                     hitPos = raycastHit.point;
+                    GameObject hitObject = raycastHit.collider.gameObject;
+                    if (hitObject.layer == (int)Layer.Enemy)
+                    {
+                        hitObject.GetComponent<Enemy>().TakeDamage(damage);
+                    }
+                    else if (hitObject.layer == (int)Layer.Switch)
+                    {
+                        hitObject.GetComponent<Switch>().ChangeActivationState(true);
+                    }
 
                     //DEBUG
                     //Debug.DrawLine(shootingPos.position, raycastHit.point, Color.red, 0.3f);
