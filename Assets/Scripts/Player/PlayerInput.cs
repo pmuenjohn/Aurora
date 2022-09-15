@@ -12,8 +12,11 @@ public class PlayerInput : MonoBehaviour
     PlayerMovement playerMovement;
     bool fireInputWasHeld;
 
+    private Gun gun;
+
     void Start()
     {
+        gun = GetComponent<Gun>();
         playerMovement = GetComponent<PlayerMovement>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -22,6 +25,8 @@ public class PlayerInput : MonoBehaviour
     void LateUpdate()
     {
         fireInputWasHeld = GetFireInputHeld();
+        if (fireInputWasHeld && gun)
+            gun.Shoot();
     }
 
     public bool CanProcessInput()

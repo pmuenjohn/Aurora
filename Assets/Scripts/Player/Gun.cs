@@ -15,6 +15,7 @@ public class Gun : MonoBehaviour
     public float reloadTime;
     public float reloadSpeed;
     public bool automaticShooting;
+    public float tracerSpeed = 2f;
 
     [Header("Gun status - for monitoring")]
     public bool canShoot, reloading;
@@ -22,6 +23,7 @@ public class Gun : MonoBehaviour
     [Header("References - not nullable")]
     public Camera cam;
     public Transform shootingPos;
+    public TrailRenderer bulletTrail;
     public RaycastHit raycastHit;
     public LayerMask hittableLayers;
 
@@ -38,24 +40,64 @@ public class Gun : MonoBehaviour
             //if out of ammo and is trying to shoot, reload
             if (ammoLeft == 0)
             {
+                //play empty mag sound effect
                 StartReload();
             }
             else
             {
                 Vector3 rayOrigin = cam.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.0f));
+                Vector3 hitPos;
 
                 //raycasting to shoot
                 if (Physics.Raycast(rayOrigin, cam.transform.forward, out raycastHit, Mathf.Infinity, (int)hittableLayers))
                 {
-                    //TODO: insert shoot mechanic
-                    Debug.Log(raycastHit);
+                    hitPos = raycastHit.point;
+                    GameObject hitObject = raycastHit.collider.gameObject;
+                    if (hitObject.layer == (int)Layer.Enemy)
+                    {
+                        hitObject.GetComponent<Enemy>().TakeDamage(damage);
+                    }
+                    else if (hitObject.layer == (int)Layer.Switch)
+                    {
+                        hitObject.GetComponent<Switch>().ChangeActivationState(true);
+                    }
+
+                    //DEBUG
+                    //Debug.DrawLine(shootingPos.position, raycastHit.point, Color.red, 0.3f);
+                }
+                else
+                {
+                    hitPos = rayOrigin + (cam.transform.forward * 500f);
                 }
 
-                ammoLeft--;
+                TrailRenderer trail = Instantiate(bulletTrail, shootingPos.position, Quaternion.identity);
+                StartCoroutine(TrailLerp(trail, hitPos));
+
+                if (ammoLeft > 0)
+                    ammoLeft--;
                 canShoot = false;
                 StartCoroutine(ShootingCooldownCoroutine(timeBetweenShots));
             }
         }
+    }
+
+    private IEnumerator TrailLerp(TrailRenderer trail, Vector3 hitPos)
+    {
+        Vector3 trailStartPos = trail.transform.position;
+        Vector3 dir = (hitPos - trailStartPos).normalized;
+        float distance = Vector3.Distance(trailStartPos, hitPos);
+        float startDistance = distance;
+        while(distance > 0)
+        {
+            trail.transform.position = Vector3.Lerp(trailStartPos, hitPos, 1 - (distance / startDistance));
+            distance -= Time.deltaTime * tracerSpeed;
+            yield return null;
+        }
+
+        trail.transform.position = hitPos;
+        //SFX ONHIT HERE
+        //Instantiate(< SFX >, hit.point, Quaternion.LookRotation(hit.normal));
+        Destroy(trail.gameObject);
     }
 
     private IEnumerator ShootingCooldownCoroutine(float waitTime)
