@@ -485,4 +485,4 @@ MonoBehaviour:
   bulletTrail: {fileID: 1014050518940296074, guid: f5de94815519fd54ba361dfe08f2875d, type: 3}
   hittableLayers:
     serializedVersion: 2
-    m_Bits: 247
+    m_Bits: 503

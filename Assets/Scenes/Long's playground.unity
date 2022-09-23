@@ -1333,10 +1333,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3999486861517123733, guid: 0bab72ff7308f4143876d55b36b627fe, type: 3}
-      propertyPath: hittableLayers.m_Bits
-      value: 503
-      objectReference: {fileID: 0}
     - target: {fileID: 6514459939333793791, guid: 0bab72ff7308f4143876d55b36b627fe, type: 3}
       propertyPath: m_Name
       value: Long's Player
