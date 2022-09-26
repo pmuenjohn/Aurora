@@ -6,7 +6,7 @@ using UnityEngine;
 public class TimeTraveller : MonoBehaviour
 {
     public bool timeTravelledThisFrame = false;
-    public bool inPast = false;
+    public bool inDimension2 = false;
 
     CharacterController controller;
 
@@ -24,9 +24,9 @@ public class TimeTraveller : MonoBehaviour
         if(timeTravelledThisFrame)
         {
             controller.enabled = false;
-            transform.position += (inPast ? -100 : 100) * Vector3.up;
+            transform.position += (inDimension2 ? -100 : 100) * Vector3.up;
             controller.enabled = true;
-            inPast = !inPast;
+            inDimension2 = !inDimension2;
             timeTravelledThisFrame = false;
         }
     }
