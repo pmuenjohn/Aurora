@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("HP Stats")]
     public float maxhp = 1f;
     public float hp;
-    public float speed = 5f;
-    public float damage = 1f;
-    public float fireRate = 1f;
-    public float spread = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -17,15 +14,9 @@ public class Enemy : MonoBehaviour
         hp = maxhp;
     }
 
-    private void Update()
-    {
-        
-    }
-
     public void TakeDamage(float amount)
     {
         hp -= amount;
-        Debug.Log(hp);
         if (hp <= 0)
         {
             Die();
