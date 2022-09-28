@@ -71,6 +71,9 @@ public class PlayerMovement : MonoBehaviour
     const float GroundCheckDistanceInAir = 0.07f;
 
     Wallrun wallRunComponent;
+
+    public Animator weaponWalkAnimator;
+    public 
     
 
     void Start()
@@ -89,7 +92,9 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         speedKmh = Vector3.ProjectOnPlane(controller.velocity, Vector3.up).magnitude * 3.6f;
-
+        float move = inputHandler.GetMoveInput().magnitude;
+        //TODO: do a ground check
+        weaponWalkAnimator.SetFloat("Speed", move);
         HasJumpedThisFrame = false;
 
         bool wasGrounded = IsGrounded;
