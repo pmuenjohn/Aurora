@@ -59,16 +59,16 @@ public class Recoil : MonoBehaviour
 
     void LateUpdate()
     {
-         s_horizontal = Mathf.Lerp(s_horizontal, Input.GetAxisRaw("Mouse X") * s_inputMultiplier, Time.deltaTime * 10f);
-         s_vertical = Mathf.Lerp(s_vertical, Input.GetAxisRaw("Mouse Y") * s_inputMultiplier, Time.deltaTime * 10f);
+         s_horizontal = Mathf.Lerp(s_horizontal, Input.GetAxisRaw("Mouse X") * s_inputMultiplier, Time.fixedDeltaTime * 5f);
+         s_vertical = Mathf.Lerp(s_vertical, Input.GetAxisRaw("Mouse Y") * s_inputMultiplier, Time.fixedDeltaTime * 5f);
         
         Quaternion rotationX = Quaternion.AngleAxis(-s_vertical, Vector3.right);
-        Quaternion rotationY = Quaternion.AngleAxis(s_horizontal * 2, Vector3.up);
-        Quaternion rotationZ = Quaternion.AngleAxis(-s_horizontal * 6, Vector3.forward);
+        // Quaternion rotationY = Quaternion.AngleAxis(s_horizontal, Vector3.up);
+        Quaternion rotationZ = Quaternion.AngleAxis(-s_horizontal, Vector3.forward);
 
-        Quaternion targetRotation = rotationX * rotationY * rotationZ;
+        Quaternion targetRotation = rotationX * rotationZ;
 
-        swayPivot.localRotation = Quaternion.Slerp(swayPivot.localRotation, targetRotation, s_smooth * Time.deltaTime);
+        swayPivot.localRotation = Quaternion.Slerp(swayPivot.localRotation, targetRotation, s_smooth * Time.fixedDeltaTime);
     }
 
     public void GenerateRecoil()

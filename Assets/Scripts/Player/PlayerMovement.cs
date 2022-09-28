@@ -94,7 +94,12 @@ public class PlayerMovement : MonoBehaviour
         speedKmh = Vector3.ProjectOnPlane(controller.velocity, Vector3.up).magnitude * 3.6f;
         float move = inputHandler.GetMoveInput().magnitude;
         //TODO: do a ground check
-        weaponWalkAnimator.SetFloat("Speed", move);
+        if(IsGrounded)
+        {
+            weaponWalkAnimator.SetFloat("Speed", move);
+        } else {
+            weaponWalkAnimator.SetFloat("Speed", 0);
+        }
         HasJumpedThisFrame = false;
 
         bool wasGrounded = IsGrounded;
@@ -103,6 +108,7 @@ public class PlayerMovement : MonoBehaviour
         // Landing
         if(IsGrounded && !wasGrounded)
         {
+            // weaponWalkAnimator.SetTrigger("Landed");
             //TODO: Apply Fall Damage and Audio
         }
 
@@ -143,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Character movement handling
         bool isSprinting = inputHandler.GetSprintInputHeld();
-        
+        weaponWalkAnimator.SetBool("Sprinting", isSprinting & IsGrounded);
         if(isSprinting)
         {
             isSprinting = SetCrouchingState(false, false);
@@ -193,7 +199,7 @@ public class PlayerMovement : MonoBehaviour
                     // Remember the last time we jumped to prevent snapping to the ground for a short time
                     lastTimeJumped = Time.time;
                     HasJumpedThisFrame = true;
-                    weaponWalkAnimator.SetTrigger("Jumped");
+                    // weaponWalkAnimator.SetTrigger("Jumped");
                     // Force grounding to false
                     IsGrounded = false;
                     groundNormal = Vector3.up;

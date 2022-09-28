@@ -9,6 +9,11 @@ public class PlayerController : MonoBehaviour
     public AudioSource playerAudio;
     public AudioClip hitIndicatorSFX;
 
+    void Start()
+    {
+        hitIndicator.SetActive(false);
+    }
+
     public IEnumerator PlayHitIndicator()
     {
         // TODO: Add an argument for type of hit
