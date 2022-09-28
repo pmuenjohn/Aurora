@@ -6,7 +6,7 @@ public class Gun : MonoBehaviour
 {
     [Header("Gun stats - modifiable")]
     public float damage;
-    public float timeBetweenShots;
+    public float fireRate;
     public float bulletsPerHit = 1;
     public float spreadMultiplier = 0;
     public int magazineSize;
@@ -26,6 +26,7 @@ public class Gun : MonoBehaviour
     public TrailRenderer bulletTrail;
     public RaycastHit raycastHit;
     public LayerMask hittableLayers;
+    public Recoil recoil;
 
     private void OnEnable()
     {
@@ -69,14 +70,14 @@ public class Gun : MonoBehaviour
                 {
                     hitPos = rayOrigin + (cam.transform.forward * 500f);
                 }
-
+                recoil.GenerateRecoil();
                 TrailRenderer trail = Instantiate(bulletTrail, shootingPos.position, Quaternion.identity);
                 StartCoroutine(TrailLerp(trail, hitPos));
 
                 if (ammoLeft > 0)
                     ammoLeft--;
                 canShoot = false;
-                StartCoroutine(ShootingCooldownCoroutine(timeBetweenShots));
+                StartCoroutine(ShootingCooldownCoroutine(60/fireRate));
             }
         }
     }
