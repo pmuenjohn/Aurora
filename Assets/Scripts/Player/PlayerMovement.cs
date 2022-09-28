@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("References")]
-    public Camera playerCamera;
+    public GameObject cameraHolder;
 
     [Header("General")]
     public float gravityDownForce = 20f;
@@ -71,6 +71,9 @@ public class PlayerMovement : MonoBehaviour
     const float GroundCheckDistanceInAir = 0.07f;
 
     Wallrun wallRunComponent;
+
+    public Animator weaponWalkAnimator;
+    public 
     
 
     void Start()
@@ -89,7 +92,9 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         speedKmh = Vector3.ProjectOnPlane(controller.velocity, Vector3.up).magnitude * 3.6f;
-
+        float move = inputHandler.GetMoveInput().magnitude;
+        //TODO: do a ground check
+        weaponWalkAnimator.SetFloat("Speed", move);
         HasJumpedThisFrame = false;
 
         bool wasGrounded = IsGrounded;
@@ -129,11 +134,11 @@ public class PlayerMovement : MonoBehaviour
         // apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
         if(wallRunComponent != null)
         {
-            playerCamera.transform.localEulerAngles = new Vector3(camVerticalAngle, 0, wallRunComponent.GetCameraRoll());
+            cameraHolder.transform.localEulerAngles = new Vector3(camVerticalAngle, 0, wallRunComponent.GetCameraRoll());
         }
         else
         {
-            playerCamera.transform.localEulerAngles = new Vector3(camVerticalAngle, 0, 0);
+            cameraHolder.transform.localEulerAngles = new Vector3(camVerticalAngle, 0, 0);
         }
 
         // Character movement handling
@@ -298,7 +303,7 @@ public class PlayerMovement : MonoBehaviour
         {
             controller.height = targetCharacterHeight;
             controller.center = Vector3.up * controller.height * 0.5f;
-            playerCamera.transform.localPosition = Vector3.up * targetCharacterHeight * camHeightRatio;
+            cameraHolder.transform.localPosition = Vector3.up * targetCharacterHeight * camHeightRatio;
             // TODO: Adjust enemy aiming point to controller.center
         } 
         // Update height smoothly
@@ -307,7 +312,7 @@ public class PlayerMovement : MonoBehaviour
             controller.height = Mathf.Lerp(controller.height, targetCharacterHeight,
                 crouchSpeed * Time.deltaTime);
             controller.center = Vector3.up * controller.height * 0.5f;
-            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition,
+            cameraHolder.transform.localPosition = Vector3.Lerp(cameraHolder.transform.localPosition,
                 Vector3.up * targetCharacterHeight * camHeightRatio, crouchSpeed * Time.deltaTime);
             // TODO: Adjust enemy aiming point to controller.center
         }
