@@ -801,7 +801,7 @@ MonoBehaviour:
   crouchSpeed: 10
   IsGrounded: 0
   speedKmh: 0
-  gunAnimator: {fileID: 4724288060873004144}
+  weaponWalkAnimator: {fileID: 4724288060873004144}
 --- !u!114 &4501910423303843008
 MonoBehaviour:
   m_ObjectHideFlags: 0
