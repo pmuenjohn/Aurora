@@ -874,8 +874,8 @@ MonoBehaviour:
   ammoLeft: -1
   reloadTime: 0
   reloadSpeed: 0
-  automaticShooting: 0
-  tracerSpeed: 350
+  automaticShooting: 1
+  tracerSpeed: 500
   canShoot: 0
   reloading: 0
   cam: {fileID: 3509254605671843200}
