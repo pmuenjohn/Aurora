@@ -193,7 +193,7 @@ public class PlayerMovement : MonoBehaviour
                     // Remember the last time we jumped to prevent snapping to the ground for a short time
                     lastTimeJumped = Time.time;
                     HasJumpedThisFrame = true;
-
+                    weaponWalkAnimator.SetTrigger("Jumped");
                     // Force grounding to false
                     IsGrounded = false;
                     groundNormal = Vector3.up;

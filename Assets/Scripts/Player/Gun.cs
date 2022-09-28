@@ -20,6 +20,9 @@ public class Gun : MonoBehaviour
     [Header("Gun status - for monitoring")]
     public bool canShoot, reloading;
 
+    [Header("Gun audio")]
+    public AudioClip weaponFireSFX;
+
     [Header("References - not nullable")]
     public Camera cam;
     public Transform shootingPos;
@@ -27,6 +30,8 @@ public class Gun : MonoBehaviour
     public RaycastHit raycastHit;
     public LayerMask hittableLayers;
     public Recoil recoil;
+    public PlayerController playerController;
+    public AudioSource cameraAudio;
 
     private void OnEnable()
     {
@@ -56,7 +61,7 @@ public class Gun : MonoBehaviour
                     GameObject hitObject = raycastHit.collider.gameObject;
                     if (hitObject.layer == (int)Layer.Enemy)
                     {
-                        hitObject.GetComponent<Enemy>().TakeDamage(damage);
+                        hitObject.GetComponent<Enemy>().TakeDamage(damage, playerController);
                     }
                     else if (hitObject.layer == (int)Layer.Switch)
                     {
@@ -70,6 +75,7 @@ public class Gun : MonoBehaviour
                 {
                     hitPos = rayOrigin + (cam.transform.forward * 500f);
                 }
+                cameraAudio.PlayOneShot(weaponFireSFX);
                 recoil.GenerateRecoil();
                 TrailRenderer trail = Instantiate(bulletTrail, shootingPos.position, Quaternion.identity);
                 StartCoroutine(TrailLerp(trail, hitPos));
