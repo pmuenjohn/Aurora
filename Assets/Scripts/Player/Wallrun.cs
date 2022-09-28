@@ -101,7 +101,7 @@ public class Wallrun : MonoBehaviour
     public float GetCameraRoll()
     {
         float dir = CalculateSide();
-        float cameraAngle = movement.playerCamera.transform.eulerAngles.z;
+        float cameraAngle = movement.cameraHolder.transform.eulerAngles.z;
         float targetAngle = 0;
         if(dir != 0)
         {
@@ -130,6 +130,7 @@ public class Wallrun : MonoBehaviour
             // Vector3.forward,
             Vector3.left + Vector3.forward,
             Vector3.left,
+            
         };
 
         if(postProcessVolume != null)
@@ -200,7 +201,6 @@ public class Wallrun : MonoBehaviour
             elapsedTimeSinceWallAttach += Time.deltaTime;
             float verticalStrength = WithinBoostGracePeriod() ? Mathf.Lerp(-boostUpwardForce, wallGravityDownForce, elapsedTimeSinceWallAttach / boostTime) : wallGravityDownForce;
             movement.CharacterVelocity += Vector3.down * verticalStrength * Time.deltaTime;
-
         }
         else
         {   
