@@ -11,6 +11,7 @@ public class PlayerInput : MonoBehaviour
 
     PlayerMovement playerMovement;
     bool fireInputWasHeld;
+    bool fireInputWasPressed;
 
     private Gun gun;
 
@@ -25,8 +26,19 @@ public class PlayerInput : MonoBehaviour
     void LateUpdate()
     {
         fireInputWasHeld = GetFireInputHeld();
-        if (fireInputWasHeld && gun)
-            gun.Shoot();
+        fireInputWasPressed = GetFireInputDown();
+        if (gun.automaticShooting)
+        {
+            if (fireInputWasHeld)
+                gun.Shoot();
+        }
+        else
+        {
+            if (fireInputWasPressed)
+            {
+                gun.Shoot();
+            }
+        }
     }
 
     public bool CanProcessInput()
@@ -75,11 +87,11 @@ public class PlayerInput : MonoBehaviour
 
     public bool GetFireInputDown()
     {
-        return GetFireInputHeld() && !fireInputWasHeld;
+        return Input.GetButtonDown("Fire");
     }
     public bool GetFireInputReleased()
     {
-        return !GetFireInputHeld() && fireInputWasHeld;
+        return Input.GetButtonUp("Fire");
     }
 
     public bool GetFireInputHeld()

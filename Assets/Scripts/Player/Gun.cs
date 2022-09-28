@@ -84,7 +84,6 @@ public class Gun : MonoBehaviour
     private IEnumerator TrailLerp(TrailRenderer trail, Vector3 hitPos)
     {
         Vector3 trailStartPos = trail.transform.position;
-        Vector3 dir = (hitPos - trailStartPos).normalized;
         float distance = Vector3.Distance(trailStartPos, hitPos);
         float startDistance = distance;
         while(distance > 0)
