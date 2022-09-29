@@ -10,6 +10,8 @@ public class Recoil : MonoBehaviour
     public Transform gunPivot;
     public Transform swayPivot;
     public PlayerInput inputHandler;
+    public Cinemachine.CinemachineImpulseSource cameraShake;
+    public Transform playerCamera;
 
     [Header("Camera recoil (degrees)")]
     public Vector3 c_recoil;
@@ -73,6 +75,7 @@ public class Recoil : MonoBehaviour
 
     public void GenerateRecoil()
     {
+        cameraShake.GenerateImpulse(playerCamera.transform.forward);
         c_targetRot += new Vector3(c_recoil.x, Random.Range(-c_recoil.y, c_recoil.y), Random.Range(-c_recoil.z, c_recoil.z));
         g_targetPos += 0.01f * new Vector3(Random.Range(-g_kickback.x, g_kickback.x), g_kickback.y, Random.Range(0, g_kickback.z));
         g_targetTilt += new Vector3(-g_tilt.x, Random.Range(-g_tilt.y, g_tilt.y), Random.Range(-g_tilt.z, g_tilt.z));

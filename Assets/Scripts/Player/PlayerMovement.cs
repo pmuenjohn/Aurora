@@ -72,9 +72,11 @@ public class PlayerMovement : MonoBehaviour
 
     Wallrun wallRunComponent;
 
-    public Animator weaponWalkAnimator;
-    public 
-    
+    public Animator movementAnimator;
+    public Animator weaponMovementAnimator;
+
+    public bool startedWallRun = false;
+    public bool endedWallRun = false;
 
     void Start()
     {
@@ -96,9 +98,9 @@ public class PlayerMovement : MonoBehaviour
         //TODO: do a ground check
         if(IsGrounded)
         {
-            weaponWalkAnimator.SetFloat("Speed", move);
+            weaponMovementAnimator.SetFloat("Speed", move);
         } else {
-            weaponWalkAnimator.SetFloat("Speed", 0);
+            weaponMovementAnimator.SetFloat("Speed", 0);
         }
         HasJumpedThisFrame = false;
 
@@ -108,10 +110,31 @@ public class PlayerMovement : MonoBehaviour
         // Landing
         if(IsGrounded && !wasGrounded)
         {
-            // weaponWalkAnimator.SetTrigger("Landed");
+            movementAnimator.SetTrigger("Landed");
             //TODO: Apply Fall Damage and Audio
         }
 
+        /*
+                if(wallRunComponent.IsWallRunning() && !startedWallRun)
+                {
+                    if(!startedWallRun)
+                    {
+                        movementAnimator.SetTrigger("StartedWallRun");
+                        startedWallRun = true;
+                        Debug.Log("Started Wallrun!");
+                    }
+                    endedWallRun = false;
+                    Debug.Log("WallRunning!");
+                    movementAnimator.SetBool("WallRunning", true);
+                } else if (!wallRunComponent.IsWallRunning() && !endedWallRun)
+                {
+                    movementAnimator.SetBool("WallRunning", false);
+                    movementAnimator.SetTrigger("EndedWallRun");
+                    Debug.Log("Ended wallrun");
+                    startedWallRun = false;
+                    endedWallRun = true;
+                }
+        */
         // Crouching
         if(inputHandler.GetCrouchInputDown())
         {
@@ -147,9 +170,10 @@ public class PlayerMovement : MonoBehaviour
             cameraHolder.transform.localEulerAngles = new Vector3(camVerticalAngle, 0, 0);
         }
 
+
         // Character movement handling
         bool isSprinting = inputHandler.GetSprintInputHeld();
-        weaponWalkAnimator.SetBool("Sprinting", isSprinting & IsGrounded);
+        weaponMovementAnimator.SetBool("Sprinting", isSprinting & IsGrounded & (inputHandler.GetMoveInput().magnitude > float.Epsilon));
         if(isSprinting)
         {
             isSprinting = SetCrouchingState(false, false);
@@ -199,7 +223,7 @@ public class PlayerMovement : MonoBehaviour
                     // Remember the last time we jumped to prevent snapping to the ground for a short time
                     lastTimeJumped = Time.time;
                     HasJumpedThisFrame = true;
-                    // weaponWalkAnimator.SetTrigger("Jumped");
+                    movementAnimator.SetTrigger("Jumped");
                     // Force grounding to false
                     IsGrounded = false;
                     groundNormal = Vector3.up;

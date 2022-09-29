@@ -13,7 +13,6 @@ public class Gun : MonoBehaviour
     public int magazinesLeft; //negative value means infinite magazine
     public int ammoLeft; //negative value means infinite ammo
     public float reloadTime;
-    public float reloadSpeed;
     public bool automaticShooting;
     public float tracerSpeed = 2f;
 
@@ -23,6 +22,12 @@ public class Gun : MonoBehaviour
     [Header("Gun audio")]
     public AudioClip weaponFireSFX;
 
+    [Header("Gun VFX")]
+    public ParticleSystem muzzleFlash;
+    public GameObject impactVFX;
+    public GameObject impactVFXEnemy;
+    public GameObject impactVFXSwitch;
+
     [Header("References - not nullable")]
     public Camera cam;
     public Transform shootingPos;
@@ -31,7 +36,8 @@ public class Gun : MonoBehaviour
     public LayerMask hittableLayers;
     public Recoil recoil;
     public PlayerController playerController;
-    public AudioSource cameraAudio;
+    public AudioSource audioSource;
+
 
     private void OnEnable()
     {
@@ -62,10 +68,17 @@ public class Gun : MonoBehaviour
                     if (hitObject.layer == (int)Layer.Enemy)
                     {
                         hitObject.GetComponent<Enemy>().TakeDamage(damage, playerController);
+                        GameObject vfx = GameObject.Instantiate(impactVFXEnemy, raycastHit.point, Quaternion.LookRotation(raycastHit.normal));
+                        vfx.transform.parent = raycastHit.transform;
                     }
                     else if (hitObject.layer == (int)Layer.Switch)
                     {
                         hitObject.GetComponent<Switch>().ChangeActivationState(true);
+                        GameObject vfx = GameObject.Instantiate(impactVFXSwitch, raycastHit.point, Quaternion.LookRotation(raycastHit.normal));
+                        vfx.transform.parent = raycastHit.transform;
+                    } else {
+                        GameObject vfx = GameObject.Instantiate(impactVFX, raycastHit.point, Quaternion.LookRotation(raycastHit.normal));
+                        vfx.transform.parent = raycastHit.transform;
                     }
 
                     //DEBUG
@@ -75,13 +88,16 @@ public class Gun : MonoBehaviour
                 {
                     hitPos = rayOrigin + (cam.transform.forward * 500f);
                 }
-                cameraAudio.PlayOneShot(weaponFireSFX);
-                recoil.GenerateRecoil();
                 TrailRenderer trail = Instantiate(bulletTrail, shootingPos.position, Quaternion.identity);
                 StartCoroutine(TrailLerp(trail, hitPos));
 
-                if (ammoLeft > 0)
+                if (ammoLeft > 0){
                     ammoLeft--;
+                }
+                muzzleFlash.Clear();
+                muzzleFlash.Play();
+                audioSource.PlayOneShot(weaponFireSFX);
+                recoil.GenerateRecoil();
                 canShoot = false;
                 StartCoroutine(ShootingCooldownCoroutine(60/fireRate));
             }
@@ -123,6 +139,7 @@ public class Gun : MonoBehaviour
         {
             reloading = true;
             //FinishReload after a certain amount of time has passed
+            Debug.Log("Reload Started!");
             StartCoroutine(ReloadingCoroutine(reloadTime));
         }
     }
@@ -147,6 +164,7 @@ public class Gun : MonoBehaviour
                 ammoLeft = magazineSize;
                 magazinesLeft--;
             }
+            Debug.Log("Reload Finished!");
             reloading = false;
         }
     }
