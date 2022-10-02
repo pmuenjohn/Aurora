@@ -7,6 +7,7 @@ public class TimeTraveller : MonoBehaviour
 {
     public bool timeTravelledThisFrame = false;
     public bool inDimension2 = false;
+    public float delay = 0.1f;
 
     CharacterController controller;
 
@@ -17,17 +18,22 @@ public class TimeTraveller : MonoBehaviour
 
     void Update()
     {
+        if(timeTravelledThisFrame)
+            Debug.Log("TimeTravelled!");
+        timeTravelledThisFrame = false;
         if(Input.GetButtonDown("TimeTravel"))
         {
-            timeTravelledThisFrame = true;
+            StartCoroutine("TimeTravel");
         }
-        if(timeTravelledThisFrame)
-        {
-            controller.enabled = false;
-            transform.position += (inDimension2 ? -100 : 100) * Vector3.up;
-            controller.enabled = true;
-            inDimension2 = !inDimension2;
-            timeTravelledThisFrame = false;
-        }
+    }
+
+    private IEnumerator TimeTravel()
+    {
+        yield return new WaitForSeconds(delay);
+        timeTravelledThisFrame = true;
+        controller.enabled = false;
+        transform.position += (inDimension2 ? -100 : 100) * Vector3.up;
+        controller.enabled = true;
+        inDimension2 = !inDimension2;
     }
 }

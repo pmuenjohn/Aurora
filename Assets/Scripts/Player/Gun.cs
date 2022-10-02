@@ -37,6 +37,7 @@ public class Gun : MonoBehaviour
     public Recoil recoil;
     public PlayerController playerController;
     public AudioSource audioSource;
+    public Animator weaponAnimator;
 
 
     private void OnEnable()
@@ -94,10 +95,13 @@ public class Gun : MonoBehaviour
                 if (ammoLeft > 0){
                     ammoLeft--;
                 }
+                
+                weaponAnimator.SetTrigger("Fire");
                 muzzleFlash.Clear();
                 muzzleFlash.Play();
                 audioSource.PlayOneShot(weaponFireSFX);
                 recoil.GenerateRecoil();
+                
                 canShoot = false;
                 StartCoroutine(ShootingCooldownCoroutine(60/fireRate));
             }

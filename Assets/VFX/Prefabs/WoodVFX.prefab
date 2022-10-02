@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7942624617164921733}
   - component: {fileID: 7820611044925991043}
   - component: {fileID: 7850613998351765973}
+  - component: {fileID: 2216964181514408131}
   m_Layer: 0
   m_Name: WoodVFX
   m_TagString: Untagged
@@ -4676,6 +4677,19 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &2216964181514408131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7940590446210311517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cfa05e1d73e30f4e85128867abd14ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyAfterSeconds: 1
 --- !u!1 &7940754735961451283
 GameObject:
   m_ObjectHideFlags: 0

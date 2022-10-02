@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+//TODO: Move all movement behaviours into separate state machines.
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerMovement : MonoBehaviour
 {
@@ -57,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
             return 1f;
         }
     }
+    // public bool canInputMovement = true;
 
     PlayerInput inputHandler;
     CharacterController controller;
@@ -196,6 +198,7 @@ public class PlayerMovement : MonoBehaviour
                 targetVelocity = GetDirectionReorientedOnSlope(targetVelocity.normalized, groundNormal) * targetVelocity.magnitude;
 
                 // Smoothly interpolate between our current velocity and the target velocity based on acceleration
+                // if(canInputMovement)
                 CharacterVelocity = Vector3.Lerp(CharacterVelocity, targetVelocity, decelerationOnGround * Time.deltaTime);
             }
 
@@ -255,7 +258,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 capsuleBottomBeforeMove = GetCapsuleBottomHemisphere();
         Vector3 capsuleTopBeforeMove = GetCapsuleTopHemisphere(controller.height);
-        controller.Move(CharacterVelocity * Time.deltaTime);
+        Move(CharacterVelocity * Time.deltaTime);
 
         // Detect obstructions to adjust velocity accordingly
         latestImpactSpeed = Vector3.zero;
@@ -268,6 +271,11 @@ public class PlayerMovement : MonoBehaviour
 
             CharacterVelocity = Vector3.ProjectOnPlane(CharacterVelocity, hit.normal);
         }
+    }
+
+    public void Move(Vector3 motion)
+    {
+        controller.Move(motion);
     }
 
     void GroundCheck()
@@ -298,7 +306,7 @@ public class PlayerMovement : MonoBehaviour
                     // Handle snapping to the ground
                     if(hit.distance > controller.skinWidth)
                     {
-                        controller.Move(Vector3.down * hit.distance);
+                        Move(Vector3.down * hit.distance);
                     }
                 }
             }

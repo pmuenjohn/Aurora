@@ -15,17 +15,26 @@ public class Recoil : MonoBehaviour
 
     [Header("Camera recoil (degrees)")]
     public Vector3 c_recoil;
-    public float c_initialSpeed;
-    public float c_settleSpeed;
+    public float c_initialSmoothTime;
+    public float c_settleSmoothTime;
 
-    private Vector3 c_currentRot;
     private Vector3 c_targetRot;
+    private Vector3 c_currentRot;
+
+    private Vector3 c_targetVel =  Vector3.zero;
+    private Vector3 c_currentVel =  Vector3.zero;
     
     [Header("Gun recoil (cm)")]
     public Vector3 g_kickback;
     public Vector3 g_tilt;
-    public float g_initialSpeed;
-    public float g_settleSpeed;
+    public float g_initialSmoothTime;
+    public float g_settleSmoothTime;
+
+    private Vector3 g_targetVel =  Vector3.zero;
+    private Vector3 g_currentVel =  Vector3.zero;
+
+    private Vector3 g_targetTiltVel =  Vector3.zero;
+    private Vector3 g_currentTiltVel =  Vector3.zero;
 
     private Vector3 g_currentPos;
     private Vector3 g_targetPos;
@@ -39,6 +48,10 @@ public class Recoil : MonoBehaviour
     private float s_horizontal;
     private float s_vertical;
 
+    private Vector2 s_velocity = Vector2.zero;
+
+    
+
     void Start()
     {
         g_currentPos = g_defaultPos = gunPivot.localPosition;
@@ -46,16 +59,16 @@ public class Recoil : MonoBehaviour
 
     void Update()
     {
-        c_targetRot = Vector3.Lerp(c_targetRot, Vector3.zero, c_settleSpeed * Time.deltaTime);
-        c_currentRot = Vector3.Slerp(c_currentRot, c_targetRot, c_initialSpeed * Time.fixedDeltaTime);
+        c_targetRot = Vector3.SmoothDamp(c_targetRot, Vector3.zero, ref c_targetVel, c_settleSmoothTime);
+        c_currentRot = Vector3.SmoothDamp(c_currentRot, c_targetRot, ref c_currentVel, c_initialSmoothTime);
         recoilHolder.localRotation = Quaternion.Euler(c_currentRot);
 
-        g_targetPos = Vector3.Lerp(g_targetPos, g_defaultPos, g_settleSpeed * Time.deltaTime);
-        g_currentPos = Vector3.Lerp(g_currentPos, g_targetPos, g_initialSpeed * Time.fixedDeltaTime);
+        g_targetPos = Vector3.SmoothDamp(g_targetPos, g_defaultPos, ref g_targetVel, g_settleSmoothTime);
+        g_currentPos = Vector3.SmoothDamp(g_currentPos, g_targetPos, ref g_currentVel, g_initialSmoothTime);
         gunPivot.localPosition = g_currentPos;
         
-        g_targetTilt = Vector3.Lerp(g_targetTilt, Vector3.zero, g_settleSpeed * Time.deltaTime);
-        g_currentTilt = Vector3.Slerp(g_currentTilt, g_targetTilt, g_initialSpeed * Time.fixedDeltaTime);
+        g_targetTilt = Vector3.SmoothDamp(g_targetTilt, Vector3.zero, ref g_targetTiltVel, g_settleSmoothTime);
+        g_currentTilt = Vector3.SmoothDamp(g_currentTilt, g_targetTilt, ref g_currentTiltVel, g_initialSmoothTime);
         gunPivot.localRotation = Quaternion.Euler(g_currentTilt);
     }
 

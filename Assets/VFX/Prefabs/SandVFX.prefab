@@ -9306,6 +9306,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6213941909339956102}
+  - component: {fileID: 3972364167597491037}
   m_Layer: 0
   m_Name: SandVFX
   m_TagString: Untagged
@@ -9330,3 +9331,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &3972364167597491037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6208536361889150058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cfa05e1d73e30f4e85128867abd14ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyAfterSeconds: 1
