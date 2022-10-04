@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 1.5000002
       objectReference: {fileID: 0}
+    - target: {fileID: 4123190598148340364, guid: e92c54209daa10243ad9b5569e8679b7, type: 3}
+      propertyPath: weaponAnimator
+      value: 
+      objectReference: {fileID: 818878169}
     - target: {fileID: 6111823193940274662, guid: e92c54209daa10243ad9b5569e8679b7, type: 3}
       propertyPath: m_Name
       value: Player
@@ -188,6 +192,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e92c54209daa10243ad9b5569e8679b7, type: 3}
+--- !u!95 &818878169 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1061033241782077975, guid: e92c54209daa10243ad9b5569e8679b7, type: 3}
+  m_PrefabInstance: {fileID: 468139788}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1545686738
 GameObject:
   m_ObjectHideFlags: 0
