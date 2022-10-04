@@ -71,7 +71,7 @@ public class Gun : MonoBehaviour
                     hitPos = rayOrigin + (cam.transform.forward * 500f);
                 }
                 recoil.GenerateRecoil();
-                TrailRenderer trail = Instantiate(bulletTrail, shootingPos.position, Quaternion.identity);
+                TrailRenderer trail = Instantiate(bulletTrail, shootingPos.position, Quaternion.identity, transform);
                 StartCoroutine(TrailLerp(trail, hitPos));
 
                 if (ammoLeft > 0)
