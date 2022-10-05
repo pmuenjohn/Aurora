@@ -14,8 +14,12 @@ public class Enemy : MonoBehaviour
         hp = maxhp;
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(float amount, PlayerController instigator)
     {
+        if(instigator)
+        {
+            instigator.StartCoroutine("PlayHitIndicator");
+        }
         hp -= amount;
         if (hp <= 0)
         {
