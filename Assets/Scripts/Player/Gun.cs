@@ -89,6 +89,7 @@ public class Gun : MonoBehaviour
                 {
                     hitPos = rayOrigin + (cam.transform.forward * 500f);
                 }
+                
                 TrailRenderer trail = Instantiate(bulletTrail, shootingPos.position, Quaternion.identity);
                 StartCoroutine(TrailLerp(trail, hitPos));
 
