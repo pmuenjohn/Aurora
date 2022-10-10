@@ -92,9 +92,7 @@ public class EnemyController : MonoBehaviour
 
     bool TryAttack(Vector3 targetPosition)
     {
-        
-        Debug.Log("Attacking");
-        return true;
+        return weapon.FireWeapon();
     }
     
 }

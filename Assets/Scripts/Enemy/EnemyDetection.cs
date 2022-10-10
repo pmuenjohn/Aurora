@@ -13,6 +13,14 @@ public class EnemyDetection : MonoBehaviour
     public float visionConeAngle;
     public float detectionRange;
     public float detectionTime;
+
+    void Start()
+    {
+        if(!target)
+        {
+            target = GameObject.FindGameObjectWithTag("PlayerAimpoint").transform;
+        }
+    }
     
     public bool TargetIsDetected()
     {
