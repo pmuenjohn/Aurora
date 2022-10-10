@@ -21,6 +21,8 @@ public class EnemyController : MonoBehaviour
 
     public AIState currentState;
 
+
+
     void Update()
     {
         UpdateState();
@@ -32,6 +34,12 @@ public class EnemyController : MonoBehaviour
         switch(currentState)
         {
             case AIState.Wandering:
+                if(detection.HeardShotInRange())
+                {
+                    targetIsInMemory = true;
+                    timeLastSeenTarget = Time.time;
+                    currentState = AIState.Retargeting;
+                }
                 if(detection.TargetIsDetected())
                 {
                     targetIsInMemory = true;
@@ -75,6 +83,7 @@ public class EnemyController : MonoBehaviour
                 TryAttack(detection.lastKnownTargetLocation);
             break;
             case AIState.Retargeting:
+                Debug.Log("retargeihn");
                 OrientTowards(detection.lastKnownTargetLocation, retargetingTurnSpeed);
             break;
         }

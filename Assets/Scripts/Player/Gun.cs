@@ -38,6 +38,7 @@ public class Gun : MonoBehaviour
     public PlayerController playerController;
     public AudioSource audioSource;
     public Animator weaponAnimator;
+    public MakeNoise noisemaker;
 
 
     private void OnEnable()
@@ -96,7 +97,7 @@ public class Gun : MonoBehaviour
                 if (ammoLeft > 0){
                     ammoLeft--;
                 }
-                
+                noisemaker.PlayerHasShot();
                 weaponAnimator.SetTrigger("Fire");
                 muzzleFlash.Clear();
                 muzzleFlash.Play();

@@ -84,11 +84,11 @@ public class DroneZMovement : Enemy
     {
         //max moverange
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(movementRangeCenter, maxRange);
+        Gizmos.DrawWireSphere(transform.position, maxRange);
 
         //min moverange
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(movementRangeCenter, minRange);
+        Gizmos.DrawWireSphere(transform.position, minRange);
 
         //next waypoint
         Gizmos.color = Color.green;
