@@ -68,7 +68,7 @@ public class Gun : MonoBehaviour
                     GameObject hitObject = raycastHit.collider.gameObject;
                     if (hitObject.layer == (int)Layer.Enemy)
                     {
-                        hitObject.GetComponent<Enemy>().TakeDamage(damage, playerController);
+                        hitObject.GetComponentInParent<Enemy>().TakeDamage(damage, playerController);
                         GameObject vfx = GameObject.Instantiate(impactVFXEnemy, raycastHit.point, Quaternion.LookRotation(raycastHit.normal));
                         vfx.transform.parent = raycastHit.transform;
                     }

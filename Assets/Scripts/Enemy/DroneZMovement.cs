@@ -18,6 +18,7 @@ public class DroneZMovement : Enemy
     private float nextMoveTime;
     public float maxMovementDuration = 1f;
     private float endOfMovementTime;
+    public float turnSpeedMultiplier;
 
     [Header("Movement Status")]
     public bool isMoving;
