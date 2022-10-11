@@ -252,8 +252,8 @@ public class PlayerMovement : MonoBehaviour
         // Only try to detect ground if it's been a short amount of time since the last jump, toherwise we may snap to the ground after we try jumping
         if(Time.time >= lastTimeJumped + GroundingPreventionTime)
         {
-            if(Physics.CapsuleCast(GetCapsuleBottomHemisphere(), GetCapsuleTopHemisphere(controller.height), 
-            controller.radius, Vector3.down, out RaycastHit hit, chosenGroundCheckDistance, groundCheckLayers, 
+            if (Physics.CapsuleCast(GetCapsuleBottomHemisphere(), GetCapsuleTopHemisphere(controller.height),
+            controller.radius, Vector3.down, out RaycastHit hit, chosenGroundCheckDistance, groundCheckLayers,
             QueryTriggerInteraction.Ignore))
             {
                 // Store the upward direction of the surface found
@@ -261,12 +261,12 @@ public class PlayerMovement : MonoBehaviour
 
                 // Only consider this a valid ground hit if the normal goes in the same direction as the character's up
                 // and if the slope angle is lower than the controller's limit
-                if(Vector3.Dot(hit.normal, transform.up) > 0f && IsNormalUnderSlopeLimit(groundNormal))
+                if (Vector3.Dot(hit.normal, transform.up) > 0f && IsNormalUnderSlopeLimit(groundNormal))
                 {
                     IsGrounded = true;
 
                     // Handle snapping to the ground
-                    if(hit.distance > controller.skinWidth)
+                    if (hit.distance > controller.skinWidth)
                     {
                         controller.Move(Vector3.down * hit.distance);
                     }
