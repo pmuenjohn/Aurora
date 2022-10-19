@@ -14,9 +14,10 @@ namespace GameCommon
 
         private IEnumerator checkInternetConnection(Action<bool> action)
         {
-            WWW www = new WWW(linkTest);
-            yield return www;
-            if (www.error != null)
+            UnityWebRequest web = new UnityWebRequest(linkTest);
+            // WWW www = new WWW(linkTest);
+            yield return web;
+            if (web.error != null)
             {
                 action(false);
             }

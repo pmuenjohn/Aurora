@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+//TODO: Move all movement behaviours into separate state machines.
 [RequireComponent(typeof(CharacterController), typeof(PlayerInput))]
 public class PlayerMovement : MonoBehaviour
 {
@@ -57,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
             return 1f;
         }
     }
+    // public bool canInputMovement = true;
 
     PlayerInput inputHandler;
     CharacterController controller;
@@ -72,9 +74,11 @@ public class PlayerMovement : MonoBehaviour
 
     Wallrun wallRunComponent;
 
-    public Animator weaponWalkAnimator;
-    public 
-    
+    public Animator movementAnimator;
+    public Animator weaponMovementAnimator;
+
+    public bool startedWallRun = false;
+    public bool endedWallRun = false;
 
     void Start()
     {
@@ -94,7 +98,12 @@ public class PlayerMovement : MonoBehaviour
         speedKmh = Vector3.ProjectOnPlane(controller.velocity, Vector3.up).magnitude * 3.6f;
         float move = inputHandler.GetMoveInput().magnitude;
         //TODO: do a ground check
-        weaponWalkAnimator.SetFloat("Speed", move);
+        if(IsGrounded)
+        {
+            weaponMovementAnimator.SetFloat("Speed", move);
+        } else {
+            weaponMovementAnimator.SetFloat("Speed", 0);
+        }
         HasJumpedThisFrame = false;
 
         bool wasGrounded = IsGrounded;
@@ -103,9 +112,31 @@ public class PlayerMovement : MonoBehaviour
         // Landing
         if(IsGrounded && !wasGrounded)
         {
+            movementAnimator.SetTrigger("Landed");
             //TODO: Apply Fall Damage and Audio
         }
 
+        /*
+                if(wallRunComponent.IsWallRunning() && !startedWallRun)
+                {
+                    if(!startedWallRun)
+                    {
+                        movementAnimator.SetTrigger("StartedWallRun");
+                        startedWallRun = true;
+                        Debug.Log("Started Wallrun!");
+                    }
+                    endedWallRun = false;
+                    Debug.Log("WallRunning!");
+                    movementAnimator.SetBool("WallRunning", true);
+                } else if (!wallRunComponent.IsWallRunning() && !endedWallRun)
+                {
+                    movementAnimator.SetBool("WallRunning", false);
+                    movementAnimator.SetTrigger("EndedWallRun");
+                    Debug.Log("Ended wallrun");
+                    startedWallRun = false;
+                    endedWallRun = true;
+                }
+        */
         // Crouching
         if(inputHandler.GetCrouchInputDown())
         {
@@ -141,9 +172,10 @@ public class PlayerMovement : MonoBehaviour
             cameraHolder.transform.localEulerAngles = new Vector3(camVerticalAngle, 0, 0);
         }
 
+
         // Character movement handling
         bool isSprinting = inputHandler.GetSprintInputHeld();
-        
+        weaponMovementAnimator.SetBool("Sprinting", isSprinting & IsGrounded & (inputHandler.GetMoveInput().magnitude > float.Epsilon));
         if(isSprinting)
         {
             isSprinting = SetCrouchingState(false, false);
@@ -166,6 +198,7 @@ public class PlayerMovement : MonoBehaviour
                 targetVelocity = GetDirectionReorientedOnSlope(targetVelocity.normalized, groundNormal) * targetVelocity.magnitude;
 
                 // Smoothly interpolate between our current velocity and the target velocity based on acceleration
+                // if(canInputMovement)
                 CharacterVelocity = Vector3.Lerp(CharacterVelocity, targetVelocity, decelerationOnGround * Time.deltaTime);
             }
 
@@ -193,7 +226,7 @@ public class PlayerMovement : MonoBehaviour
                     // Remember the last time we jumped to prevent snapping to the ground for a short time
                     lastTimeJumped = Time.time;
                     HasJumpedThisFrame = true;
-
+                    movementAnimator.SetTrigger("Jumped");
                     // Force grounding to false
                     IsGrounded = false;
                     groundNormal = Vector3.up;
@@ -225,7 +258,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 capsuleBottomBeforeMove = GetCapsuleBottomHemisphere();
         Vector3 capsuleTopBeforeMove = GetCapsuleTopHemisphere(controller.height);
-        controller.Move(CharacterVelocity * Time.deltaTime);
+        Move(CharacterVelocity * Time.deltaTime);
 
         // Detect obstructions to adjust velocity accordingly
         latestImpactSpeed = Vector3.zero;
@@ -238,6 +271,11 @@ public class PlayerMovement : MonoBehaviour
 
             CharacterVelocity = Vector3.ProjectOnPlane(CharacterVelocity, hit.normal);
         }
+    }
+
+    public void Move(Vector3 motion)
+    {
+        controller.Move(motion);
     }
 
     void GroundCheck()
@@ -268,7 +306,7 @@ public class PlayerMovement : MonoBehaviour
                     // Handle snapping to the ground
                     if (hit.distance > controller.skinWidth)
                     {
-                        controller.Move(Vector3.down * hit.distance);
+                        Move(Vector3.down * hit.distance);
                     }
                 }
             }
