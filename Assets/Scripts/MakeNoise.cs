@@ -21,7 +21,9 @@ public class MakeNoise : MonoBehaviour
 
     public void PlayerHasShot()
     {
-        Debug.Log("PlayerHasShot");
+        if(detections.Length > 0)
+        {
         onHeardShot.Invoke();
+        }
     }
 }

@@ -102,7 +102,7 @@ MonoBehaviour:
   maxLifeTime: 5
   hittableLayers:
     serializedVersion: 2
-    m_Bits: 4091
+    m_Bits: 3963
   speed: 20
   gravityAcceleration: 0
   inheritWeaponVelocity: 0
