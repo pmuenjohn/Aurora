@@ -23,7 +23,7 @@ public class MakeNoise : MonoBehaviour
     {
         if(detections.Length > 0)
         {
-        onHeardShot.Invoke();
+            onHeardShot.Invoke();
         }
     }
 }

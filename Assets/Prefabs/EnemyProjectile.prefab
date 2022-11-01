@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5446454385891387500}
   - component: {fileID: 5522260683080431298}
   - component: {fileID: 2050330834991682000}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EnemyProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ MonoBehaviour:
   maxLifeTime: 5
   hittableLayers:
     serializedVersion: 2
-    m_Bits: 3963
+    m_Bits: 265
   speed: 20
   gravityAcceleration: 0
   inheritWeaponVelocity: 0

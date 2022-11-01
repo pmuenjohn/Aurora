@@ -97,7 +97,7 @@ public class EnemyProjectile : MonoBehaviour
 
     bool IsHitValid(RaycastHit hit)
     {
-        if(hit.collider.GetComponent<IgnoreHitDetection>())
+        if(hit.collider.GetComponent<IgnoreHitDetection>() || !hit.collider.enabled)
             return false;
 
         //if(hit.collider.isTrigger && hit.collider.GetComponent<Damageable> == null)

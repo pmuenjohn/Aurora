@@ -8005,7 +8005,6 @@ GameObject:
   - component: {fileID: 1482082443258948515}
   - component: {fileID: 1482082443258948514}
   - component: {fileID: 3241345478988900405}
-  - component: {fileID: 1482082443258948513}
   - component: {fileID: 1482082443258948512}
   - component: {fileID: 1482082443258948519}
   - component: {fileID: 1482082443258948518}
@@ -8054,7 +8053,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 10
   hp: 0
-  startCheckpoint: {fileID: 0}
   playerCanvas: {fileID: 1482082443799310386}
 --- !u!114 &1482082443258948525
 MonoBehaviour:
@@ -8165,43 +8163,6 @@ MonoBehaviour:
   isDashing: 0
   canDash: 1
   lastHorizontalVelocity: {x: 0, y: 0, z: 0}
---- !u!114 &1482082443258948513
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1482082443258948539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c5174cef4fe8174693f8d54b34344a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  wallRunRaycastOffset: {x: 0, y: 1, z: 0}
-  wallMaxDistance: 1
-  wallSpeedMultiplier: 8.5
-  minimumHeight: 0.7
-  maxAngleRoll: 20
-  normalizedAngleThreshold: 0.5
-  jumpDuration: 0.25
-  wallRunDuration: 2
-  wallRunCooldown: 1
-  wallBouncing: 3
-  camTransitionDuration: 3
-  wallGravityDownForce: 10
-  boostUpwardForce: 20
-  boostGracePeriod: 0.5
-  boostTime: 0.75
-  useSprint: 0
-  postProcessVolume: {fileID: 1482082444319728716}
-  directions: []
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 2147483647
-  elapsedTimeSinceJump: 0
-  elapsedTimeSinceKickoff: 0
-  jumping: 0
-  kickOff: 0
 --- !u!114 &1482082443258948512
 MonoBehaviour:
   m_ObjectHideFlags: 0
