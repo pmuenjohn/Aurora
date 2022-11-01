@@ -2753,7 +2753,7 @@ GameObject:
   - component: {fileID: 319460507}
   - component: {fileID: 319460506}
   - component: {fileID: 319460505}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MAP_present_PP_Volume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4612,7 +4612,7 @@ GameObject:
   - component: {fileID: 500271607}
   - component: {fileID: 500271609}
   - component: {fileID: 500271608}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MAP_alternate_PP_Volume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12572,7 +12572,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4737134418527537153, guid: a1ad1d5302adf4e4b9e91b0d51623ea9, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4737134418527537153, guid: a1ad1d5302adf4e4b9e91b0d51623ea9, type: 3}
       propertyPath: m_LocalScale.x
@@ -18778,7 +18778,7 @@ Transform:
   - {fileID: 1624163665}
   - {fileID: 974508290}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1624163664
 PrefabInstance:

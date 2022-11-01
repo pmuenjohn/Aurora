@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
     public DroneZMovement movement;
     public EnemyWeaponController weapon;
     public bool targetIsInMemory;
+    public Animator anim;
 
     public enum AIState {
         Wandering,
@@ -76,14 +77,15 @@ public class EnemyController : MonoBehaviour
         switch(currentState)
         {
             case AIState.Wandering:
+                anim.SetBool("InCombat", false);
                 OrientTowards(movement.nextWaypoint, movement.turnSpeedMultiplier);
             break;
             case AIState.Combat:
+                anim.SetBool("InCombat", true);
                 OrientTowards(detection.lastKnownTargetLocation, weapon.turnSpeedMultiplier);
                 TryAttack(detection.lastKnownTargetLocation);
             break;
             case AIState.Retargeting:
-                Debug.Log("retargeihn");
                 OrientTowards(detection.lastKnownTargetLocation, retargetingTurnSpeed);
             break;
         }
