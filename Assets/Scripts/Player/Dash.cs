@@ -36,7 +36,6 @@ public class Dash : MonoBehaviour
         {
             float deltaModifier = (dashTime - (Time.time - startTime)) / dashTime;
             movement.Move(lastHorizontalVelocity.normalized * dashSpeed * (Time.deltaTime * deltaModifier));
-            Debug.Log(deltaModifier);
             yield return null;
         }
         isDashing = false;

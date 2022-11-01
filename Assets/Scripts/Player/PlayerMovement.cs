@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     public float maxAirSpeed = 10f;
     public float airAcceleration = 25f;
     public float sprintMultiplier = 1.5f;
+    private Dash dashComponent;
 
     [Header("Rotation")]
     public float rotationSpeed = 200f;
@@ -87,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         controller.enableOverlapRecovery = true;
 
+        dashComponent = GetComponent<Dash>();
         wallRunComponent = GetComponent<Wallrun>();
 
         SetCrouchingState(false, true);
@@ -248,9 +250,14 @@ public class PlayerMovement : MonoBehaviour
                 Vector3 horizontalVelocity = Vector3.ProjectOnPlane(CharacterVelocity, Vector3.up);
                 horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, maxAirSpeed * speedModifier);
                 CharacterVelocity = horizontalVelocity + (Vector3.up * verticalVelocity);
-                
+
                 // Apply gravity to the velocity
-                CharacterVelocity += Vector3.down * gravityDownForce * Time.deltaTime;
+                if (!dashComponent.isDashing)
+                    CharacterVelocity += Vector3.down * gravityDownForce * Time.deltaTime;
+                else
+                {
+                    CharacterVelocity = new Vector3(CharacterVelocity.x, 0f, CharacterVelocity.z);
+                }
             }
         }
 
