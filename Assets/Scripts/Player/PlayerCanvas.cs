@@ -50,6 +50,5 @@ public class PlayerCanvas : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Debug.Log(Time.timeScale);
     }
 }

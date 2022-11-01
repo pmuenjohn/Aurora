@@ -6,13 +6,13 @@ public class Checkpoint : MonoBehaviour
 {
     public Transform spawnpoint;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.layer == (int)Layer.Player)
         {
             PlayerStatus.hasCurrentCheckpoint = true;
-            PlayerStatus.currentCheckpointPos = transform.position;
-            PlayerStatus.currentCheckpointRot = transform.rotation;
+            PlayerStatus.currentCheckpointPos = spawnpoint.position;
+            PlayerStatus.currentCheckpointRot = spawnpoint.rotation;
         }
     }
 }
