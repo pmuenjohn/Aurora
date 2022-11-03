@@ -10,6 +10,7 @@ public class ChangeSceneTrigger : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
+            PlayerStatus.hasCurrentCheckpoint = false;
             SceneManager.LoadScene(nextSceneName);
         }
     }

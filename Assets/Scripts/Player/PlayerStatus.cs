@@ -38,4 +38,9 @@ public class PlayerStatus : MonoBehaviour
             playerCanvas.DisplayDeathScreen();
         }
     }
+
+    public void ClearCheckpoint()
+    {
+        hasCurrentCheckpoint = false;
+    }
 }
