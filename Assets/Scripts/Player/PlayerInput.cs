@@ -39,6 +39,11 @@ public class PlayerInput : MonoBehaviour
                 gun.Shoot();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            gun.StartReload();
+        }
     }
 
     public bool CanProcessInput()

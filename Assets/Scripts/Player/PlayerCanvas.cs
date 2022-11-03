@@ -37,6 +37,7 @@ public class PlayerCanvas : MonoBehaviour
         deathScreen.SetActive(true);
         HUD.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void SetUpHUD()

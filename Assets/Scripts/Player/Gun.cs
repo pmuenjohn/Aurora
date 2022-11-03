@@ -48,8 +48,8 @@ public class Gun : MonoBehaviour
 
     public void Shoot()
     {
-        //if cooldown between shots finished
-        if (canShoot)
+        //if cooldown between shots finished and not reloading
+        if (canShoot && !reloading)
         {
             //if out of ammo and is trying to shoot, reload
             if (ammoLeft == 0)
